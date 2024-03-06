@@ -5,47 +5,46 @@
 #
 #
 ############################
-
-calculatorOn = True
-savedOperation = False
+calculator_on = True
+temp = 0
 operation = None
-while calculatorOn:
-    test = True
-    if 'temp' in locals():
-        choice = input("what will your first input be? (number, /, X, +, -)")
-    else:
-        choice = "number"
-    if choice == "number":
-        test = True
-        while test:
-            number = input("Please input an integer")
-            try:
-                number = int(number)
-                test = False
-            except ValueError:
-                print("That was not an integer")
-        if savedOperation:
-            if operation == "/":
-                temp = temp/number
-            elif operation == "X":
-                temp = temp * number
-            elif operation == "+":
-                temp = temp + number
-            elif operation == "-":
-                temp = temp - number
-        else:
-            temp = number
-    elif choice == "/":
-        savedOperation = True
-        operation = "/"
-    elif choice =="X":
-        savedOperation = True
-        operation = "X"
-    elif choice == "+":
-        savedOperation = True
-        operation = "+"
-    elif choice == "-":
-        savedOperation = True
-        operation = "-"
-    print(temp)
-        
+
+while True:
+    number = input("Please input a number or type 'quit' to exit: ")
+    if number.lower() == 'quit':
+        calculator_on = False
+        break
+    try:
+        temp = float(number)  # Accept floating-point numbers as well
+        break
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+
+while calculator_on:
+    while True:
+        number = input("Please input a number or type an operation (+, -, X, /): ")
+        if number.lower() in ['+', '-', 'x', '/']:
+            operation = number
+            break
+        elif number.lower() == 'quit':
+            calculator_on = False
+            break
+        try:
+            number = float(number)
+            if operation == '+':
+                temp += number
+            elif operation == '-':
+                temp -= number
+            elif operation.lower() == 'x':
+                temp *= number
+            elif operation == '/':
+                if number == 0:
+                    print("Error: Division by zero")
+                    continue
+                temp /= number
+            print("Result:", temp)  # Print the intermediate result
+            break
+        except ValueError:
+            print("Invalid input. Please enter a number or an operation.")
+
+print("Calculator is turned off.")
